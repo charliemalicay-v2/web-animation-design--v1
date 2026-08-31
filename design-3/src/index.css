@@ -20,6 +20,7 @@
   --brand-deep: #1c6fb0;
   --accent: #7fc98a;
   --accent-lime: #9be067;
+  --accent-dark: #1f6b3a; /* AA-safe green for the wordmark on light nav */
   --steel: #7c99b6;
   --chrome: #c5d2df;
 
@@ -248,8 +249,12 @@ h3 {
   left: 0;
   right: 0;
   z-index: 150;
-  transition: border-color 0.3s;
+  color: #fff; /* default: over the dark hero */
+  transition: border-color 0.3s, color 0.3s;
   border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  color: var(--text); /* once the nav sits on the light --paper background */
 }
 .nav-inner {
   max-width: var(--wrap);
@@ -289,6 +294,22 @@ h3 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+/* The hero-tuned gradients above measure 1.46-2.81:1 against the scrolled
+   nav's light --paper background (fails WCAG AA, needs >=3:1 for this
+   large/bold text). Swap to solid, darker colours once scrolled — both
+   >=6:1 against --paper. */
+.nav.scrolled .wordmark .w1 {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  color: var(--ink-3);
+}
+.nav.scrolled .wordmark .w2 {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  color: var(--accent-dark);
 }
 .nav-links {
   display: flex;

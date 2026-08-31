@@ -65,6 +65,7 @@ Sampled from the plexus, the wordmark gradients and the navy field.
 | `--brand-deep` | `#1C6FB0` | Hover / pressed brand |
 | `--accent` | `#7FC98A` | Mint — the "CLOUD" wordmark, success, metric underline, feature dot |
 | `--accent-lime` | `#9BE067` | Node-glow highlight, "MOST CHOSEN" badge — **use sparingly** |
+| `--accent-dark` | `#1F6B3A` | "CLOUD" wordmark on the **scrolled (light) nav** — see Contrast below |
 | `--steel` | `#7C99B6` | The "CHARLIE" wordmark, muted technical tint |
 | `--chrome` | `#C5D2DF` | Metallic hairlines/dividers on dark, metric number gradient |
 
@@ -78,8 +79,18 @@ Sampled from the plexus, the wordmark gradients and the navy field.
 
 ### Wordmark gradients
 
-- "CHARLIE": `linear-gradient(180deg, var(--chrome), var(--steel))` clipped to text.
-- "CLOUD": `linear-gradient(180deg, var(--accent-lime), var(--accent))` clipped to text.
+- "CHARLIE": `linear-gradient(180deg, var(--chrome), var(--steel))` clipped to text — **over the
+  dark hero only**.
+- "CLOUD": `linear-gradient(180deg, var(--accent-lime), var(--accent))` clipped to text — **over the
+  dark hero only**.
+- **`.nav.scrolled`**: these gradients measure 1.46–2.81:1 against the light `--paper`
+  nav background (fails WCAG AA, needs ≥3:1 for this large/bold text). Once the nav
+  is scrolled, the wordmark switches to **solid** colours instead:
+  `.nav.scrolled .wordmark .w1 { color: var(--ink-3) }` (12.8:1 vs `--paper`) and
+  `.nav.scrolled .wordmark .w2 { color: var(--accent-dark) }` (6.2:1 vs `--paper`).
+  The nav also sets `color: #fff` by default (over the hero) and
+  `.nav.scrolled { color: var(--text) }`, so `currentColor`-based children like the
+  hamburger icon stay visible in both states (white over the hero, dark once scrolled).
 
 ### Contrast
 
@@ -87,6 +98,9 @@ Body text `--text` on `--paper` ≈ 15:1. `--muted` on `--paper` ≈ 5.6:1 (AA).
 On `.on-ink`, body is `#fff` and muted is `rgba(255,255,255,.64)` ≈ 6:1.
 CTA: white on `--brand` ≈ 3.3:1 — acceptable for large 600-weight button text; do
 not use `--brand` for small body copy on white.
+Nav wordmark: 12.8:1 ("Charlie") / 6.2:1 ("Cloud") vs `--paper` once scrolled;
+6–11.7:1 vs `--ink` over the hero. Hamburger icon: 17:1 vs `--paper` scrolled,
+solid `#fff` over the hero.
 
 ---
 
