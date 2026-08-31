@@ -1,0 +1,23 @@
+# Normalize line endings: store text as LF in the repo, check out native.
+* text=auto
+
+# Keep these text formats LF in the working tree too (silences CRLF warnings).
+*.md   text eol=lf
+*.csv  text eol=lf
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.svg  text eol=lf
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+
+# Binary assets — never touch.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.glb  binary
+*.woff  binary
+*.woff2 binary
