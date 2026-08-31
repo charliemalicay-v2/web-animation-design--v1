@@ -1,0 +1,63 @@
+name: design-3 CI
+
+# Type-checks and builds the Charlie Cloud landing page on every change.
+# Deployment (CD) is handled separately by Vercel's native GitHub integration
+# — see design-3/README.md — so this workflow is a pure quality gate.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "design-3/**"
+      - ".github/workflows/design-3-ci.yml"
+  pull_request:
+    paths:
+      - "design-3/**"
+      - ".github/workflows/design-3-ci.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: design-3-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: design-3
+
+jobs:
+  build:
+    name: Type-check & build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: design-3/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check + production build
+        run: npm run build
+
+      - name: Fail on stray tsc/vite build artifacts
+        run: |
+          set -e
+          stray=$(git status --porcelain -- . ':!dist' ':!node_modules' | grep -E '\.(tsbuildinfo)$|^\?\? vite\.config\.(js|d\.ts)$' || true)
+          if [ -n "$stray" ]; then
+            echo "::error::Unexpected build artifacts were generated and would need to be committed or ignored:"
+            echo "$stray"
+            exit 1
+          fi
+
+      - name: Upload production build (debug artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-3-dist
+          path: design-3/dist
+          retention-days: 7
