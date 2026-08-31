@@ -417,6 +417,12 @@
         .foot-brand { grid-column: 1 / -1; }
         .hero-actions .btn { flex: 1; justify-content: center; }
     }
+    @media print {
+        .reveal, .foot-bot, .foot-top > *, .stat-band > div, .metric, .step, .prob, .svc, .tier, .q, .fitem {
+            opacity: 1 !important; transform: none !important; clip-path: none !important;
+        }
+        .grain, .progress, .aurora, .hero-grid { display: none !important; }
+    }
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
         .reveal { opacity: 1; transform: none; }
@@ -846,7 +852,8 @@
            A dedicated entrance / scroll behaviour per component.
         ================================================================ */
         gsap.registerPlugin(ScrollTrigger);
-        gsap.config({ nullTargetWarn: false });
+
+        try { // any failure below must never leave .reveal content hidden
 
         const EASE = 'power3.out';
 
@@ -914,7 +921,8 @@
             gsap.set('.hero .reveal', { opacity: 1, y: 0 });
             const heroWords = splitWords(document.querySelector('.hero h1'));
 
-            gsap.timeline({ defaults: { ease: EASE, duration: 0.8 } })
+            const heroTl = gsap.timeline({ defaults: { ease: EASE, duration: 0.8 }, onComplete: initMagnetic });
+            heroTl
                 .from('.hero .eyebrow', { y: 24, opacity: 0 }, 0.15)
                 .from(heroWords, { yPercent: 120, opacity: 0, stagger: 0.08, duration: 0.9 }, '-=0.2')
                 .from('.hero .lead', { y: 24, opacity: 0 }, '-=0.5')
@@ -987,8 +995,8 @@
             ScrollTrigger.batch('.step', {
                 start: 'top 84%',
                 onEnter: els => gsap.fromTo(els,
-                    { opacity: 0, y: 20, clipPath: 'inset(0 100% 0 0)' },
-                    { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.9, stagger: 0.15, ease: EASE, overwrite: true })
+                    { opacity: 0, y: 20, xPercent: -4 },
+                    { opacity: 1, y: 0, xPercent: 0, duration: 0.8, stagger: 0.15, ease: EASE, overwrite: true })
             });
 
             /* FAQ items */
@@ -1031,7 +1039,7 @@
                 .from('.final .eyebrow', { y: 20, opacity: 0, duration: 0.6 })
                 .from(finalWords, { yPercent: 120, opacity: 0, stagger: 0.06, duration: 0.8 }, '-=0.2')
                 .from('.final .lead', { y: 20, opacity: 0, duration: 0.6 }, '-=0.4')
-                .from('.final .btn', { y: 18, opacity: 0, scale: 0.9, duration: 0.6, ease: 'back.out(1.7)' }, '-=0.3')
+                .from('.final .btn', { opacity: 0, scale: 0.9, duration: 0.6, ease: 'back.out(1.7)' }, '-=0.3')
                 .from('.final .mail', { opacity: 0, duration: 0.5 }, '-=0.2');
 
             gsap.to('.final .aurora', {
@@ -1058,8 +1066,14 @@
                 svc.addEventListener('mouseleave', () => gsap.to(ic, { rotate: 0, scale: 1, duration: 0.4, ease: 'power2.out' }));
             });
 
-            /* ---------- Magnetic buttons (quickTo) ---------- */
-            if (window.matchMedia('(pointer:fine)').matches) {
+            /* ---------- Magnetic buttons (quickTo) ----------
+               Declared here (hoisted) and run only AFTER the hero intro via
+               heroTl.onComplete, so the intro timeline and quickTo never
+               co-drive transform 'y' on the same button. delayedCall is a
+               fallback in case the intro timeline never completes. */
+            function initMagnetic() {
+                if (initMagnetic.done || !window.matchMedia('(pointer:fine)').matches) return;
+                initMagnetic.done = true;
                 document.querySelectorAll('.btn-primary, .btn-light').forEach(btn => {
                     const xTo = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3' });
                     const yTo = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3' });
@@ -1071,11 +1085,21 @@
                     btn.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
                 });
             }
+            gsap.delayedCall(3, initMagnetic);
 
             ScrollTrigger.refresh();
         });
+        } catch (err) {
+            console.error('[design-2] GSAP init failed — revealing all content:', err);
+            document.querySelectorAll('.reveal, .foot-bot, .foot-top > *, .stat-band > div')
+                .forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+            document.querySelectorAll('.count').forEach(el => {
+                const dec = parseInt(el.dataset.dec || '0', 10);
+                el.textContent = parseFloat(el.dataset.to).toFixed(dec);
+            });
+        }
 
-        window.addEventListener('load', () => ScrollTrigger.refresh());
+        window.addEventListener('load', () => { try { ScrollTrigger.refresh(); } catch (e) {} });
     }
 </script>
 </body>
