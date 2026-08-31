@@ -465,23 +465,23 @@ Stage 4 ~ Year 2 · Stage 5 ~ Year 2.5-3.5.
 Freelance income has a ceiling (hours). To become wealthy, convert labor into an asset that earns
 without you. Pick ONE (Carnegie: one basket, watched closely).
 
-### Route A — Productized Agency (higher probability, proven)
+### 7.1 Route A — Productized Agency (higher probability, proven)
 - Hire 2-3 junior PH devs at PHP 35-50k/month.
 - Sell fixed-scope projects at international rates (USD 3,000-8,000). They build; you sell + review + manage.
 - Standardize the offer ("Conversion-optimized Shopify store in 21 days — USD 4,500").
 - Margin 40-60%. At 4-6 projects/month: ~PHP 300,000-600,000/month profit.
 - The agency itself is a sellable asset (2-4x annual profit).
 
-### Route B — Micro-SaaS / Digital Products (higher upside, higher variance)
+### 7.2 Route B — Micro-SaaS / Digital Products (higher upside, higher variance)
 - Build a focused tool from a problem seen repeatedly in client work (Shopify app, WP plugin, niche SaaS).
 - Sell templates/themes for cash flow while the SaaS grows.
 - Target: PHP 150,000-500,000/month recurring within 2-3 years. Sells for 3-5x annual revenue.
 
-### Route C — Equity in clients' businesses
+### 7.3 Route C — Equity in clients' businesses
 - Offer cash-discount-for-equity on startups you'd build for anyway (e.g. 30% off for 2-4% equity).
 - Only on top of paying work, never instead of it. Power law: most worth nothing, one may be worth everything.
 
-### Realistic wealth timeline
+### 7.4 Realistic wealth timeline
 
 | Milestone | Timeframe | Driver |
 |---|---|---|
@@ -492,7 +492,7 @@ without you. Pick ONE (Carnegie: one basket, watched closely).
 
 ---
 
-### 7.4 Idea Bank — 50 money-making options, rated
+### 7.5 Idea Bank — 50 money-making options, rated
 
 **Legend.** *Return time* = time to first meaningful revenue.
 *Difficulty*: Low / Med / High (skill + effort to get working).
@@ -880,7 +880,29 @@ Sunday ritual (20 min): what worked, what didn't, what changes next week. (Pain 
 
 ## 14. Trackers
 
+Two working files live alongside this plan:
+
 - `net-worth-tracker.csv` — monthly snapshot of assets, debts, net worth, income, savings rate.
 - `debt-payoff-tracker.csv` — per-debt avalanche schedule and running balance.
 
-Update both on the 1st of every month during the 1-hour finance review.
+Both are **pure data** (header row + rows). Fill one row on the 1st of every month during the
+1-hour finance review; add rows as needed.
+
+### 14.1 net-worth-tracker.csv — computed columns
+
+| Column | Formula |
+|---|---|
+| Total Assets | Cash & Emergency Fund + Global Equity + PH Equity + MP2 / Bonds + Other Assets |
+| Net Worth | Total Assets - Total Debt |
+| Savings Rate % | Saved / Invested / Monthly Income |
+
+### 14.2 debt-payoff-tracker.csv — computed columns
+
+| Column | Formula |
+|---|---|
+| Interest Accrued | Starting Balance x Monthly Interest Rate % |
+| Ending Balance | Starting Balance + Interest Accrued - Payment Made |
+| Next month's Starting Balance | previous month's Ending Balance |
+
+**Method:** avalanche — pay the highest Monthly Interest Rate % first, minimums on all others.
+Paying off 20%+ APR debt is a guaranteed, tax-free return and the highest-priority use of surplus cash.
