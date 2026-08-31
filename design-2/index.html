@@ -418,8 +418,12 @@
         .hero-actions .btn { flex: 1; justify-content: center; }
     }
     @media print {
-        .reveal, .foot-bot, .foot-top > *, .stat-band > div, .metric, .step, .prob, .svc, .tier, .q, .fitem {
-            opacity: 1 !important; transform: none !important; clip-path: none !important;
+        * { opacity: 1 !important; }
+        .reveal, .section-head > *, .hero-actions .btn, .hero-note, .trust p,
+        .final .eyebrow, .final .lead, .final .btn, .final .mail,
+        .foot-bot, .foot-top > *, .stat-band > div, #about .about-grid > div > *,
+        .metric, .step, .prob, .svc, .tier, .q, .fitem {
+            transform: none !important; clip-path: none !important;
         }
         .grain, .progress, .aurora, .hero-grid { display: none !important; }
     }
