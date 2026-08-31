@@ -1,0 +1,18 @@
+Month,Date,Debt Name,Monthly Interest Rate %,Starting Balance,Interest Accrued,Payment Made,Ending Balance,Cumulative Paid,Notes
+0,2026-08-31,Debt 1 (rename),FILL RATE,200000,,,200000,0,Enter exact lender + rate. Split into multiple rows if more than one debt.
+1,,Debt 1 (rename),,,,,,,Pay minimum only during Phase 1 (income ramp).
+2,,Debt 1 (rename),,,,,,,Pay minimum only during Phase 1.
+3,,Debt 1 (rename),,,,,,,Avalanche starts: all surplus (~PHP 70k) to highest-rate debt.
+4,,Debt 1 (rename),,,,,,,
+5,,Debt 1 (rename),,,,,,,
+6,,Debt 1 (rename),,,,,,,
+7,,Debt 1 (rename),,,,,,,
+8,,Debt 1 (rename),,,,,,,Target: balance reaches 0.
+9,,Debt 1 (rename),,,,,,,
+10,,Debt 1 (rename),,,,,,,DEBT-FREE target. Redirect payment stream to investing.
+COLUMN NOTES,,,,,,,,,
+Interest Accrued,,= Starting Balance * Monthly Interest Rate %,,,,,,,
+Ending Balance,,= Starting Balance + Interest Accrued - Payment Made,,,,,,,
+Next month Starting Balance,,= previous month Ending Balance,,,,,,,
+Method,,Avalanche - highest Monthly Interest Rate % first; minimums on all others.,,,,,,,
+Rule,,Paying off 20%+ APR debt = guaranteed tax-free return. Highest-priority use of surplus cash.,,,,,,,
